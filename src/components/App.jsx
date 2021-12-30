@@ -7,7 +7,7 @@ import contactsActions from "../redux/contacts/contactsActions";
 import {
   getContactsFiltered,
   getFilter,
-} from "../redux/contacts/contactsSelector";
+} from "../redux/contacts/contactsSelectors";
 import * as storage from "./LocalStorage/LocalStorage";
 
 const STORAGE_KEY = "contacts";
@@ -27,7 +27,6 @@ export default function App() {
 
   const changeFilter = (e) => {
     dispatch(contactsActions.changeFilter(e.currentTarget.value));
-    // setFilter(e.currentTarget.value);
   };
 
   const getVisibleContacts = () => {
