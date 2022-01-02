@@ -1,25 +1,13 @@
-const set = (key, value) => {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (error) {
-    return null;
-  }
+import { useState, useEffect } from "react";
+
+const useLocalStorage = (key, defaultValue) => {
+  const [state, setState] = useState(() => {
+    return JSON.parse(localStorage.getItem(key)) ?? defaultValue;
+  });
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(state));
+  }, [state, key]);
+  return [state, setState];
 };
 
-const get = (key) => {
-  try {
-    return JSON.parse(localStorage.getItem(key));
-  } catch (error) {
-    return null;
-  }
-};
-
-const remove = (key) => {
-  try {
-    return localStorage.removeItem(key);
-  } catch (error) {
-    return null;
-  }
-};
-
-export { get, set, remove };
+export default useLocalStorage;

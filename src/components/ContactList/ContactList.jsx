@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import s from "./ContactList.module.css";
+import { deleteContacts } from "../../api/api";
 
 const ContactList = ({ contacts, onRemoveContact }) => {
   return (
@@ -10,7 +11,7 @@ const ContactList = ({ contacts, onRemoveContact }) => {
           <p>
             {contact.name}: {contact.number}
           </p>
-          <button type="button" onClick={() => onRemoveContact(contact.id)}>
+          <button type="button" onClick={() => deleteContacts(contact.id)}>
             delete
           </button>
         </li>

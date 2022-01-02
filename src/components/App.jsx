@@ -5,39 +5,40 @@ import Filter from "./Filter/Filter";
 import ContactForm from "./ContactForm/ContactForm";
 import contactsActions from "../redux/contacts/contactsActions";
 import {
+  fetchContacts,
+  deleteContacts,
+  createContacts,
+} from "../redux/contacts/contactsOperatios";
+import {
   getContactsFiltered,
   getFilter,
 } from "../redux/contacts/contactsSelectors";
-import * as storage from "./LocalStorage/LocalStorage";
-
-const STORAGE_KEY = "contacts";
 
 export default function App() {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
   const contacts = useSelector(getContactsFiltered);
 
-  useEffect(() => {
-    storage.set(STORAGE_KEY, contacts);
-  }, [contacts]);
+  useEffect(() => dispatch(fetchContacts()), [dispatch]);
 
   const addContact = (name, number) => {
-    dispatch(contactsActions.addContact(name, number));
+    const dublicate = contacts.some((c) => c.name === name);
+    if (dublicate) {
+      return alert(`${name} is already in contacts.`);
+    }
+    dispatch(createContacts(name, number));
   };
 
   const changeFilter = (e) => {
     dispatch(contactsActions.changeFilter(e.currentTarget.value));
   };
 
-  const getVisibleContacts = () => {
-    return contacts.filter((contact) => {
-      return contact.name.toLowerCase().includes(filter.toLowerCase());
-    });
-  };
-
   const deleteContact = (id) => {
-    dispatch(contactsActions.deleteContact(id));
-    // setContacts(contacts.filter((contact) => contact.id !== id));
+    dispatch(
+      deleteContacts(id).then(() => {
+        dispatch(fetchContacts());
+      })
+    );
   };
 
   return (
@@ -47,10 +48,7 @@ export default function App() {
       <h2>Contacts</h2>
 
       <Filter filter={filter} onChangeFilter={changeFilter} />
-      <ContactList
-        contacts={getVisibleContacts()}
-        onRemoveContact={deleteContact}
-      />
+      <ContactList contacts={contacts} deleteContact={deleteContact} />
     </div>
   );
 }
