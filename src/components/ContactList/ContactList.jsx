@@ -1,21 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 import s from "./ContactList.module.css";
-import { deleteContacts } from "../../api/api";
 
-const ContactList = ({ contacts, onRemoveContact }) => {
+const ContactList = ({ contacts, deleteContact }) => {
   return (
     <ul className={s.list}>
-      {contacts.map((contact) => (
-        <li className={s.item} key={contact.id}>
-          <p>
-            {contact.name}: {contact.number}
-          </p>
-          <button type="button" onClick={() => deleteContacts(contact.id)}>
-            delete
-          </button>
-        </li>
-      ))}
+      {contacts &&
+        contacts.map((contact) => (
+          <li className={s.item} key={contact.id}>
+            <p>
+              {contact.name}: {contact.number}
+            </p>
+            <button type="button" onClick={() => deleteContact(contact.id)}>
+              delete
+            </button>
+          </li>
+        ))}
     </ul>
   );
 };

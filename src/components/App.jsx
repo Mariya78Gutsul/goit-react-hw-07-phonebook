@@ -26,7 +26,7 @@ export default function App() {
     if (dublicate) {
       return alert(`${name} is already in contacts.`);
     }
-    dispatch(createContacts(name, number));
+    dispatch(createContacts({ name, number }));
   };
 
   const changeFilter = (e) => {
@@ -34,11 +34,9 @@ export default function App() {
   };
 
   const deleteContact = (id) => {
-    dispatch(
-      deleteContacts(id).then(() => {
-        dispatch(fetchContacts());
-      })
-    );
+    dispatch(deleteContacts(id)).then(() => {
+      dispatch(fetchContacts());
+    });
   };
 
   return (

@@ -11,13 +11,13 @@ export const contactsApi = createApi({
       query: () => "/contacts",
       providesTags: ["Contacts"],
     }),
-    deleteContacts: builder.mutation({
-      query: (contactId) => ({
-        url: `/contacts/${contactId}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["Contacts"],
-    }),
+    // deleteContacts: builder.mutation({
+    //   query: (contactId) => ({
+    //     url: `/contacts/${contactId}`,
+    //     method: "DELETE",
+    //   }),
+    //   invalidatesTags: ["Contacts"],
+    // }),
     createContacts: builder.mutation({
       query: ({ name, number }) => ({
         url: "/contacts",
